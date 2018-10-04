@@ -20,6 +20,8 @@
         </activity>
 
         <activity android:name=".notificationList.notificationCreation.CreateNotificationActivity"/>
+        <receiver android:name=".notificationList.NotificationDismissedReceiver"
+            android:exported="false"/>
     </application>
 
 </manifest>
