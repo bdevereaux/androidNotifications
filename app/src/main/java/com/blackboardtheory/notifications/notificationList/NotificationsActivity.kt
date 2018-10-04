@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -56,8 +59,23 @@ class NotificationsActivity : AppCompatActivity() {
             val title = data?.getStringExtra(CreateNotificationActivity.KEY_TITLE)
             val subtitle = data?.getStringExtra(CreateNotificationActivity.KEY_SUBTITLE)
             val group = data?.getStringExtra(CreateNotificationActivity.KEY_GROUP)
-            viewModel.addNotification(SimpleNotification(title!!, subtitle!!, Date().hashCode(), NotificationsApplication.CHANNEL_ID, group!!))
+            if(null != title && null != subtitle && null != group) {
+                viewModel.addNotification(title, subtitle, group)
+            }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_clear_notifications, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.clear_notifications) {
+            viewModel.clearNotifications()
+            Toast.makeText(this, "Removing all Notifications from Memory", Toast.LENGTH_SHORT).show()
+        }
+        return false
     }
 
     /**********************************************************************************************/
